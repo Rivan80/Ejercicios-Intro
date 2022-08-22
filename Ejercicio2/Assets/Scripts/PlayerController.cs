@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour{
     private float horInput;
     private float verInput;
 
+    private bool izq = true;
+
     // Start is called before the first frame update
     void Start(){
     }
@@ -23,5 +25,16 @@ public class PlayerController : MonoBehaviour{
         transform.Translate(Vector3.forward * Time.deltaTime * velocidad * verInput);
         // Mueve el vehiculo para los lados teniendo en cuenta el tiempo real y el input
         transform.Rotate(Vector3.up, Time.deltaTime * velocidadDoblar * horInput);
+
+        if(transform.position.z >= 200 & izq)
+        {
+            transform.position = new Vector3(transform.position.x+400, transform.position.y, 0);
+            izq = false;
+        }
+        else if (transform.position.z >= 200 & !izq)
+        {
+            transform.position = new Vector3(transform.position.x-400, transform.position.y, 0);
+            izq = true;
+        }
     }
 }

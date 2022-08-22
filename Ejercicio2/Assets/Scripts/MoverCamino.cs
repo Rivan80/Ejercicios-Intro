@@ -3,14 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MoverCamino : MonoBehaviour{
-    // Numero de set del Camino(carretera y obstaculos)
-    public int numCamino;
-    // Cuantas veces se movio el set
-    private int setActual = 0;
-    // Para saber si hay que rotarlo
-    public bool esObstaculo;
     private Quaternion rotIni;
     private Vector3 posIni;
+
+    private bool izq = true;
 
     public GameObject jugador;
 
@@ -22,16 +18,17 @@ public class MoverCamino : MonoBehaviour{
 
     // Update is called once per frame
     void Update() {
-        if (jugador.transform.position.z >= 200*numCamino+800*setActual){
-            transform.position = new Vector3(posIni.x, posIni.y, transform.position.z + 800);
+        // Se chequea si se movio el auto a otra carretera para resetear los obstaculos
+        // No se puede chequear si el jugador llega a 200 en z por que se moveria antes
+        if (jugador.transform.position.x >= 200 & izq){
+            transform.position = new Vector3(posIni.x, posIni.y, posIni.z);
             transform.rotation = rotIni;
-            setActual++;
+            izq = false;
         }
-
-        else if (jugador.transform.position.z <= -200 * (5 - numCamino) + 800 * setActual){
-            transform.position = new Vector3(posIni.x, posIni.y, transform.position.z - 800);
+        else if (jugador.transform.position.x <= 200 & !izq){
+            transform.position = new Vector3(posIni.x, posIni.y, posIni.z);
             transform.rotation = rotIni;
-            setActual--;
+            izq = true;
         }
     }
 }
